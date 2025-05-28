@@ -1,6 +1,59 @@
 import * as styles from "@src/assets/custom.css";
+import InputField from "@src/components/forms/InputField";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginSchema } from "./Login.schema";
+import PasswordIcon from "@src/components/forms/PasswordIcon";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { loginAction } from "@src/redux/actions/auth/authAction";
+import MuiIcon from "@src/components/MuiIcon";
 
 export const Login = () => {
+	const dispatch = useDispatch();
+
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		resolver: zodResolver(LoginSchema),
+		mode: "onBlur",
+		shouldUseNativeValidation: false,
+		defaultValues: {
+			email: "",
+			password: "",
+			rememberMe: false,
+		},
+	});
+
+	const onSubmit = (data) => {
+		toast.success(`Login successfully`, { autoClose: 2000 });
+		dispatch(
+			loginAction({ email: data.email, password: data.password })
+				.unwrap()
+				.then(() => {
+					toast("Login successful", { type: "success" });
+				})
+				.catch((error) => {
+					toast(error, { type: "error" });
+				})
+		);
+	};
+
+	const onSubmitError = (errors) => {
+		if (errors.email) {
+			toast(`${errors.email.message}`, { type: "error" });
+			return;
+		}
+
+		if (errors.password) {
+			toast(`${errors.password.message}`, { type: "error" });
+			return;
+		}
+		console.log(errors); // Handle form errors here
+	};
+
 	return (
 		<>
 			<div className="h-screen flex">
@@ -25,53 +78,36 @@ export const Login = () => {
 				</div>
 				<div className="flex w-full lg:w-1/2 justify-center items-center bg-white space-y-8">
 					<div className="w-full px-8 md:px-32 lg:px-24">
-						<form className="bg-white rounded-md shadow-2xl p-5">
+						<form
+							className="bg-white rounded-md shadow-2xl p-5"
+							onSubmit={handleSubmit(onSubmit, onSubmitError)}>
 							<h1 className="text-gray-800 font-bold text-2xl mb-1">
 								Hello Again!
 							</h1>
 							<p className="text-sm font-normal text-gray-600 mb-8">
 								Welcome Back
 							</p>
-							<div className="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									className="h-5 w-5 text-gray-400"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="currentColor">
-									<path
-										strokelinecap="round"
-										strokelinejoin="round"
-										strokewidth={2}
-										d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-									/>
-								</svg>
-								<input
-									id="email"
-									className=" pl-2 w-full outline-none border-none"
-									type="email"
+							<div className="space-y-4">
+								<InputField
+									label="Email"
 									name="email"
-									placeholder="Email Address"
+									type="email"
+									register={register}
+									error={errors.email}
+									size="md"
+									append={
+										<MuiIcon icnoName="email" />
+									}
 								/>
-							</div>
-							<div className="flex items-center border-2 mb-12 py-2 px-3 rounded-2xl ">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									className="h-5 w-5 text-gray-400"
-									viewBox="0 0 20 20"
-									fill="currentColor">
-									<path
-										fillrule="evenodd"
-										d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-										cliprule="evenodd"
-									/>
-								</svg>
-								<input
-									className="pl-2 w-full outline-none border-none"
-									type="password"
+
+								<InputField
+									label="Password"
 									name="password"
-									id="password"
-									placeholder="Password"
+									type="password"
+									register={register}
+									error={errors.password}
+									size="md"
+									append={<PasswordIcon />}
 								/>
 							</div>
 							<button

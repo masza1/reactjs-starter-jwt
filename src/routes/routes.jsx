@@ -3,7 +3,7 @@ import authGuard from "../middleware/authGuard";
 import { buildRoutes, createGroup, createRoute } from "./routeBuilder";
 import Dashboard from "@src/pages/dashboard/Dashboard.page";
 import NotFound from "@src/components/layout/NotFound.page";
-import { Login } from "@src/pages/auth/Login.page";
+import { Login } from "@src/pages/auth/login/Login.page";
 
 const routes = buildRoutes([
 	createRoute("/", <Dashboard />).name("dashboard"),
