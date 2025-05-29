@@ -72,7 +72,18 @@ function extractRouteInfo(node) {
 			callee.type === "Identifier" &&
 			callee.name === "createRoute"
 		) {
-			const [pathArg] = n.arguments;
+			const [routeObjArg] = n.arguments;
+			let pathArg = null;
+			if (routeObjArg && routeObjArg.type === "ObjectExpression") {
+				const pathProp = routeObjArg.properties.find(
+					(prop) =>
+						(prop.key.name || prop.key.value) === "path" &&
+						prop.value.type === "StringLiteral"
+				);
+				if (pathProp) {
+					pathArg = pathProp.value;
+				}
+			}
 			if (pathArg?.type === "StringLiteral") {
 				route.path = pathArg.value;
 				route.params = extractParams(route.path);
@@ -114,15 +125,22 @@ async function generateRoutes() {
 				callee.object.type === "CallExpression")
 		) {
 			const info = extractRouteInfo(expr);
-			if (!info.name) {
-				console.warn(`⚠️ Skipping route without .name(): ${info.path}`);
+			if (!info.name && !info.path) {
+				console.warn(
+					`⚠️ Skipping route without .name() or path: ${info.path}`
+				);
 				return;
 			}
 
 			info.path = path.posix.join(parent.prefixPath, info.path || "");
-			info.name = parent.prefixName
-				? `${parent.prefixName}.${info.name}`
-				: info.name;
+
+			if (!info.name) {
+				info.name = info.path;
+			} else {
+				info.name = parent.prefixName
+					? `${parent.prefixName}.${info.name}`
+					: info.name;
+			}
 
 			routes.push(info);
 			return;

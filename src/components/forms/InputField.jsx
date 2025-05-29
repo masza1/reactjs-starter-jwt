@@ -18,7 +18,7 @@ export default function InputField({
 	...props
 }) {
 	const baseInputStyles =
-		"block w-full border rounded-2xl focus:outline-none transition-all duration-150 ease-in-out shadow-md";
+		"block w-full border rounded-2xl focus:outline-hidden transition-all duration-150 ease-in-out shadow-md";
 
 	const sizeStyles = {
 		sm: "px-2 py-1 text-sm",

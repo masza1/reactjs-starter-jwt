@@ -1,5 +1,14 @@
+import { route } from "@src/routes/routeHelper";
+import { Outlet } from "react-router-dom";
+
 const MainLayout = () => {
-	return <p>Main Layout</p>;
+	route("dashboard");
+	return (
+		<>
+			<p>Main Layout</p>
+			<Outlet />
+		</>
+	);
 };
 
 export default MainLayout;

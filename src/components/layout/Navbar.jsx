@@ -6,8 +6,8 @@ export const Navbar = () => {
                     <h3 class="text-2xl font-semibold">Logo</h3>
                 </a>
 
-                <div class="lg:!flex lg:flex-auto lg:ml-12 max-lg:hidden max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50">
-                    <button class="lg:hidden fixed top-2 right-4 z-[100] rounded-full bg-white p-3">
+                <div class="lg:flex! lg:flex-auto lg:ml-12 max-lg:hidden max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50">
+                    <button class="lg:hidden fixed top-2 right-4 z-100 rounded-full bg-white p-3">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="w-4 fill-black"
@@ -21,7 +21,7 @@ export const Navbar = () => {
                         </svg>
                     </button>
 
-                    <div class="lg:!flex lg:flex-auto max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50">
+                    <div class="lg:flex! lg:flex-auto max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50">
                         <ul class="lg:flex lg:gap-x-8 max-lg:space-y-2">
                             <li class="mb-6 hidden max-lg:block">
                                 <a href="javascript:void(0)">
@@ -89,7 +89,7 @@ export const Navbar = () => {
                         class="hover:text-[#007bff] text-gray-600 block font-bold text-[15px]">
                         Log in
                     </a>
-                    <button class="px-4 py-2.5 text-sm rounded font-bold text-white border-2 border-[#1d294f] bg-[#1d294f] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#1d294f]">
+                    <button class="px-4 py-2.5 text-sm rounded-sm font-bold text-white border-2 border-[#1d294f] bg-[#1d294f] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#1d294f]">
                         Start free trial
                     </button>
 

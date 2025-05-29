@@ -25,7 +25,7 @@ const Table = ({
                                     render={(_, _index) => {
                                         return (
                                             <Td>
-                                                <div className="h-4 w-32 bg-gray-300 rounded animate-pulse"></div>
+                                                <div className="h-4 w-32 bg-gray-300 rounded-sm animate-pulse"></div>
                                             </Td>
                                         );
                                     }}

@@ -8,7 +8,7 @@ const NavLink = ({ to, children, className = "", ...rest }) => {
 			to={to}
 			className={({ isActive }) =>
 				clsx(
-					"px-4 py-2 text-sm font-medium rounded transition-colors",
+					"px-4 py-2 text-sm font-medium rounded-sm transition-colors",
 					clsx(
 						"px-4 py-2 rounded-md font-medium transition-colors duration-200",
 						isActive

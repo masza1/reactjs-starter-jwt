@@ -1,22 +1,53 @@
 import { RouteDefinitions } from "@src/types/routes";
 import routeGroups from "./routes";
 
-function joinPaths(...parts) {
+interface JoinPaths {
+	(...parts: string[]): string;
+}
+
+const joinPaths: JoinPaths = (...parts: string[]): string => {
 	return parts
 		.map((part) => part.replace(/^\/+|\/+$/g, "")) // remove leading/trailing slashes
 		.filter(Boolean)
 		.join("/");
+};
+
+interface FlattenedRoute {
+	name: string;
+	path: string;
+	index: boolean;
+	params: string[];
+	paramDefs: Record<string, any>;
+	queryParams: string[];
 }
 
-function flattenRoutes(routesList, acc = [], parentPath = "", parentName = "") {
-	for (const route of routesList) {
-		const fullPath = "/" + joinPaths(parentPath, route.path);
-		const fullName = [parentName, route.name].filter(Boolean).join(".");
+interface RouteGroup {
+	name?: string;
+	path?: string;
+	index?: boolean;
+	paramDefs?: Record<string, any>;
+	queryParams?: string[];
+	children?: RouteGroup[];
+}
 
-		if (route.name && route.path !== undefined) {
+function flattenRoutes(
+	routesList: RouteGroup[],
+	acc: FlattenedRoute[] = [],
+	parentPath: string = "",
+	parentName: string = ""
+): FlattenedRoute[] {
+	for (const route of routesList) {
+		const fullPath = "/" + joinPaths(parentPath, route.path ?? "");
+		const fullName = [parentName, route.name].filter(Boolean).join(".");
+		// console.log(`Flattening route: ${route.index} ${fullName} at ${fullPath}`);
+		
+		if (route.name && (route.path !== undefined || route.index)) {
+			// console.log(`Flattening route: ${route.index ? "Index" : "Named"} ${fullName} at ${fullPath}`);
+			
 			acc.push({
 				name: fullName,
 				path: fullPath,
+				index: route.index || false,
 				params: extractParams(fullPath),
 				paramDefs: route.paramDefs || {},
 				queryParams: route.queryParams || [],
@@ -27,7 +58,7 @@ function flattenRoutes(routesList, acc = [], parentPath = "", parentName = "") {
 			flattenRoutes(
 				route.children,
 				acc,
-				joinPaths(parentPath, route.path),
+				joinPaths(parentPath, route.path ?? ""),
 				fullName
 			);
 		}
@@ -36,7 +67,7 @@ function flattenRoutes(routesList, acc = [], parentPath = "", parentName = "") {
 	return acc;
 }
 
-function extractParams(routePath) {
+function extractParams(routePath: string): string[] {
 	return [...routePath.matchAll(/:([\w]+)/g)].map((m) => m[1]);
 }
 
@@ -52,7 +83,6 @@ export function route<K extends keyof RouteDefinitions>(
 	if (!found) throw new Error(`Route "${name}" not found.`);
 
 	let path = found.path;
-	// ✅ Runtime validation if you included paramDefs in flattenRoutes
 	if (found.paramDefs) {
 		for (const [key, allowed] of Object.entries(found.paramDefs)) {
 			if (Array.isArray(allowed)) {
@@ -73,21 +103,11 @@ export function route<K extends keyof RouteDefinitions>(
 		}
 	}
 
-	// Replace params in path
 	for (const key in params) {
 		path = path.replace(`:${key}`, encodeURIComponent(String(params[key])));
 	}
 
 	const query = new URLSearchParams(queryParams).toString();
 	const pathResolve = query ? `${path}?${query}` : path;
-	// console.log(
-	// 	`Resolved route: ${name} with params:`,
-	// 	params,
-	// 	"and queryParams:",
-	// 	queryParams,
-	// 	"=>",
-	// 	pathResolve
-	// );
-
 	return pathResolve;
 }
