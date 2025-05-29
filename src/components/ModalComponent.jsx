@@ -21,7 +21,7 @@ const ModalComponent = () => {
 				render={(modal) => (
 					<div
 						id={modal.id}
-						className={`modal overflow-y-auto fixed inset-0 items-start justify-center bg-black bg-opacity-50 transition-opacity duration-300 ease-out flex opacity-100 `}
+						className={`modal overflow-y-auto fixed inset-0 items-start justify-center bg-black/50 transition-opacity duration-300 ease-out flex opacity-100 `}
 						onClick={() =>
 							!modal.isStaticBackdrop &&
 							dispatch(closeModal(modal.id))

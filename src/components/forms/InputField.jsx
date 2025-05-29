@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 
 export default function InputField({
 	name,
@@ -28,17 +28,17 @@ export default function InputField({
 
 	const validationStyles = {
 		default:
-			"border-mugs-olive dark:border-mugs-gray focus:ring-mugs-blue focus:border-mugs-blue",
+			"border-brand-olive dark:border-brand-gray focus:ring-brand-blue focus:border-brand-blue",
 		error: "border-red-500 dark:border-red-400 focus:ring-red-500 focus:border-red-500",
 		success:
 			"border-green-500 dark:border-green-400 focus:ring-green-500 focus:border-green-500",
 	};
 
-	const inputClasses = classNames(
+	const inputClasses = clsx(
 		baseInputStyles,
 		sizeStyles[size],
 		error ? validationStyles.error : validationStyles[validation],
-		"bg-light-surface dark:bg-dark-surface text-mugs-slate dark:text-mugs-gray",
+		"bg-light-surface dark:bg-dark-surface text-brand-slate dark:text-brand-gray",
 		{
 			"bg-gray-100 dark:bg-dark-surface/60 cursor-not-allowed":
 				disabled || readOnly,
@@ -49,7 +49,7 @@ export default function InputField({
 		className
 	);
 
-	const containerClasses = classNames("flex", {
+	const containerClasses = clsx("flex", {
 		"flex-col gap-1": labelPosition === "top",
 		"items-center gap-2": labelPosition === "left",
 	});
@@ -82,7 +82,7 @@ export default function InputField({
 
 	const renderLabeledInput = () => (
 		<div className={containerClasses}>
-			<label className="font-medium text-mugs-brown dark:text-mugs-blue min-w-[100px]">
+			<label className="font-medium text-brand-brown dark:text-brand-blue min-w-[100px]">
 				{label}
 			</label>
 			{renderInputWithWrapper()}
@@ -95,7 +95,7 @@ export default function InputField({
 		}
 		if (helperText) {
 			return (
-				<p className="text-sm text-mugs-olive dark:text-mugs-gray">
+				<p className="text-sm text-brand-olive dark:text-brand-gray">
 					{helperText}
 				</p>
 			);

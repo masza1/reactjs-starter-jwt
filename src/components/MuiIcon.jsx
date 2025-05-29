@@ -5,7 +5,7 @@ const MuiIcon = ({ icnoName = "", onClick, className = "", ...rest }) => {
 
 	return (
 		<span
-			className={`cursor-pointer flex items-center text-mugs-brown dark:text-mugs-blue ${className}`}
+			className={`cursor-pointer flex items-center text-brand-brown dark:text-brand-blue ${className}`}
 			onClick={onClick}
 			{...rest}>
 			<i className={`material-icons`}>{icnoName}</i>

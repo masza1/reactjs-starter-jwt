@@ -1,20 +1,23 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-	content: ["./src/**/*.{js,jsx,ts,tsx}"],
+	content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
 	darkMode: "class", // Enable dark mode support
 	theme: {
 		extend: {
 			colors: {
-				mugs: {
+				primary: "#844D36", // brown as primary
+				secondary: "#8E8268", // olive
+				accent: "#86B3D1", // blue
+				danger: "#CF0000",
+				warning: "#FBB040",
+				info: "#00AEEF",
+				success: "#00C49F",
+				brand: {
 					brown: "#844D36",
 					slate: "#474853",
 					blue: "#86B3D1",
 					gray: "#AAA0A0",
 					olive: "#8E8268",
-				},
-				brand: {
-					primary: "#86B3D1", // Using blue as the brand accent
-					secondary: "#8E8268", // Olive as accent
 				},
 				light: {
 					background: "#ffffff",

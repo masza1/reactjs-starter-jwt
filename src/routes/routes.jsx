@@ -4,6 +4,7 @@ import { buildRoutes, createGroup, createRoute } from "./routeBuilder";
 import Dashboard from "@src/pages/dashboard/Dashboard.page";
 import NotFound from "@src/components/layout/NotFound.page";
 import { Login } from "@src/pages/auth/login/Login.page";
+import { LoginV2 } from "@src/pages/auth/login/LoginV2.page";
 
 const routes = buildRoutes([
 	createRoute("/", <Dashboard />).name("dashboard"),
@@ -11,6 +12,9 @@ const routes = buildRoutes([
 	createRoute("/login", <Login />)
 		.queryParams(["role", "t"])
 		.name("login"),
+	createRoute("/login-v2", <LoginV2 />)
+		.queryParams(["role", "t"])
+		.name("login-v2"),
 
 	createGroup(
 		{
