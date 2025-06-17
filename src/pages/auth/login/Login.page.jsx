@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema } from "./Login.schema";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { loginAction } from "@src/redux/actions/auth/authAction";
 import {
 	Button,
 	InputField,
@@ -12,6 +11,7 @@ import {
 	MuiIcon,
 	PasswordIcon,
 } from "@src/components";
+import { login } from "@src/redux/actions/auth/authAction";
 
 export const Login = () => {
 	const dispatch = useDispatch();
@@ -32,7 +32,7 @@ export const Login = () => {
 	});
 
 	const onSubmit = (data) => {
-		dispatch(loginAction({ email: data.email, password: data.password }))
+		dispatch(login({ email: data.email, password: data.password }))
 			.unwrap()
 			.then(() => {
 				toast("Login successful", { type: "success" });
@@ -96,7 +96,7 @@ export const Login = () => {
 									register={register}
 									error={errors.email}
 									size="md"
-									append={<MuiIcon icnoName="email" />}
+									append={<MuiIcon iconName="email" />}
 								/>
 
 								<InputField

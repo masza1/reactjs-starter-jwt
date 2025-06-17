@@ -46,7 +46,7 @@ function renderRoutes(routes, user) {
 export default function AppRouter() {
 	const user = useSelector((state) => state.auth.user);
 	const routes = renderRoutes(routeGroups, user);
-	console.log("Rendered Routes:", routes);
+	// console.log("Rendered Routes:", routes);
 	// useRoutes([
 	//     {}
 	// ])

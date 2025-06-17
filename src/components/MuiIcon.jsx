@@ -1,14 +1,15 @@
-const MuiIcon = ({ icnoName = "", onClick, className = "", ...rest }) => {
-	if (!icnoName) {
+const MuiIcon = ({ iconName = "", outlined = false, onClick, className = "", ...rest }) => {
+	if (!iconName) {
 		return null;
 	}
 
 	return (
 		<span
-			className={`cursor-pointer flex items-center text-brand-brown dark:text-brand-blue ${className}`}
+			className={`${onClick ? "cursor-pointer" : ""} flex items-center text-brand-brown dark:text-brand-blue ${className}
+				${outlined ? "material-symbols-outlined" : "material-icons"}`}
 			onClick={onClick}
 			{...rest}>
-			<i className={`material-icons`}>{icnoName}</i>
+			{iconName}
 		</span>
 	);
 };

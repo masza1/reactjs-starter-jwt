@@ -18,9 +18,10 @@
 			"@src/*": ["src/*"],
 			"@components/*": ["src/components/*"],
 			"@utils/*": ["src/utils/*"]
-		}
+		},
+		"types": ["tailwindcss"]
 	},
-	"include": ["src", "**/*.jsx"],
+	"include": ["src", "**/*.jsx", "tailwind.config.js"],
     "exclude": ["node_modules", "dist"]
     
 }

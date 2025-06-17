@@ -7,6 +7,9 @@ import { Login } from "@src/pages/auth/login/Login.page";
 import { LoginV2 } from "@src/pages/auth/login/LoginV2.page";
 import { Navigate } from "react-router-dom";
 import guestGuard from "@src/middleware/guestGuard";
+import RawatJalan from "@src/pages/rawat-jalan/RawatJalan.page";
+import BiayaPerawatan from "@src/pages/perawatan/Perawatan.page";
+import BukuBesar from "@src/pages/buku-besar/BukuBesar.page";
 
 const routes = buildRoutes([
 	createRoute({
@@ -17,18 +20,20 @@ const routes = buildRoutes([
 		path: "/login",
 		element: <LoginV2 />,
 	})
-	.middleware([guestGuard])
-	.name("login"),
+		.middleware([guestGuard])
+		.name("login"),
 
 	createGroup(
 		{
-			prefixPath: "/dashboard",
+			prefixPath: "/",
 			layout: <MainLayout />,
 			middleware: [authGuard],
 		},
 		[
-			createRoute({ element: <Dashboard />, index: true }).name("dashboard"),
-			// createRoute({ path: "/rekap-biaya-kesehatan", element: <Dashboard /> }).name("users"),
+			createRoute({ path: "/dashboard", element: <Dashboard /> }).name("dashboard"),
+			createRoute({ path: "/rawat-jalan", element: <RawatJalan /> }).name("rawat-jalan"),
+			createRoute({ path: "/biaya-perawatan", element: <BiayaPerawatan /> }).name("biaya-perawatan"),
+			createRoute({ path: "/buku-besar-pensiunan", element: <BukuBesar /> }).name("buku-besar-pensiunan"),
 		]
 	),
 

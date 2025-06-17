@@ -1,4 +1,4 @@
-import { loginAction, logoutAction } from "@src/redux/actions/auth/authAction";
+import { login, register, logout, refreshToken, resetPassword } from "@src/redux/actions/auth/authAction";
 
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -6,10 +6,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
 	isAuthenticated: false,
-	loading: false,
 	user: {},
-	token: null,
-	refreshToken: null,
+	accessToken: null,
+	csrfToken: null,
+	loading: false,
 	error: null,
 };
 
@@ -17,53 +17,66 @@ const authSlice = createSlice({
 	name: "auth",
 	initialState,
 	reducers: {
-		login: (state, action) => {
-			state.isAuthenticated = true;
-			state.user = action.payload.user;
-			state.token = action.payload.token;
-			// console.log(state);
+		setLoading(state, action) {
+			state.loading = action.payload;
 		},
-		logout: (state) => {
-			// clearPersistedState();
-			state.isAuthenticated = false;
-			state.user = {};
-			state.token = null;
+		setUser(state, action) {
+			state.user = action.payload.user;
+			state.error = null;
+			state.loading = false;
+		},
+		setError(state, action) {
+			state.error = action.payload;
+		},
+		logoutUser(state) {
+			state.user = null;
+			state.accessToken = null;
+			state.refreshToken = null;
+		},
+		setAccessToken(state, action) {
+			state.accessToken = action.payload;
 		},
 	},
 	extraReducers: (builder) => {
 		builder
-			// Handle login pending state
-			.addCase(loginAction.pending, (state) => {
-				state.loading = true;
-				state.error = null;
-			})
-			// Handle login success state
-			.addCase(loginAction.fulfilled, (state, action) => {
-				state.loading = false;
+			.addCase(login.fulfilled, (state, action) => {
+				state.user = action.payload.user;
+				state.accessToken = action.payload.access_token;
+				state.csrfToken = action.payload.csrf_token;
 				state.isAuthenticated = true;
-				state.user = action.payload.user || {};
-				state.token = action.payload.token;
-				state.refreshToken = action.payload.refreshToken;
-			})
-			// Handle login rejected state
-			.addCase(loginAction.rejected, (state, action) => {
+				state.error = null;
 				state.loading = false;
-				state.error = action.payload; // Error message from rejectWithValue
-			});
-		builder
-			.addCase(logoutAction.pending, (state) => {
-				state.loading = true;
+			})
+			.addCase(register.fulfilled, (state, action) => {
+				state.user = action.payload.user;
+				state.accessToken = action.payload.access_token;
+				state.refreshToken = action.payload.refresh_token;
+				state.csrfToken = action.payload.csrf_token;
+				state.isAuthenticated = true;
+				state.error = null;
+				state.loading = false;
+			})
+			.addCase(logout.fulfilled, (state) => {
+				state.user = null;
+				state.accessToken = null;
+				state.refreshToken = null;
+			})
+			.addCase(refreshToken.fulfilled, (state, action) => {
+				state.accessToken = action.payload.accessToken;
 				state.error = null;
 			})
-			.addCase(logoutAction.fulfilled, (state) => {
-				state.loading = false;
-				state.isAuthenticated = false;
-				state.user = {};
-				state.token = null;
-				state.refreshToken = null;
-			});
+			.addCase(resetPassword.fulfilled, (state) => {
+				state.error = null;
+			})
+			.addMatcher(
+				(action) => action.type.endsWith("rejected"),
+				(state, action) => {
+					state.error = action.payload;
+					state.loading = false;
+				}
+			);
 	},
 });
 
-export const { login, logout } = authSlice.actions;
+export const { setLoading, setUser, setError, logoutUser, setAccessToken } = authSlice.actions;
 export default authSlice.reducer;

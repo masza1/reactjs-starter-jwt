@@ -22,10 +22,8 @@ const ModalComponent = () => {
 					<div
 						id={modal.id}
 						className={`modal overflow-y-auto fixed inset-0 items-start justify-center bg-black/50 transition-opacity duration-300 ease-out flex opacity-100 `}
-						onClick={() =>
-							!modal.isStaticBackdrop &&
-							dispatch(closeModal(modal.id))
-						}>
+						onClick={() => !modal.isStaticBackdrop && dispatch(closeModal(modal.id))}
+						style={{ zIndex: modal.zIndex || 1000 }}>
 						<div
 							className={`lg:my-20 md:my-20 my-10 bg-white rounded-2xl overflow-hidden shadow-xl transform transition-transform duration-300 ease-out sm:max-w-lg sm:w-full ${
 								modalSize[modal.size]
@@ -37,9 +35,7 @@ const ModalComponent = () => {
 										{modal.titleElement ? (
 											modal.titleElement
 										) : modal.title ? (
-											<h3
-												className="text-lg leading-6 font-medium text-gray-900"
-												id="modalTitle">
+											<h3 className="text-lg leading-6 font-medium text-gray-900" id="modalTitle">
 												{modal.title}
 											</h3>
 										) : (
@@ -47,17 +43,13 @@ const ModalComponent = () => {
 										)}
 									</div>
 									<button
-										onClick={() =>
-											dispatch(closeModal(modal.id))
-										}
+										onClick={() => dispatch(closeModal(modal.id))}
 										type="button"
 										className="text-gray-500 hover:text-gray-700">
 										<i className="material-icons">close</i>
 									</button>
 								</div>
-								<div className="mt-2 px-4 pt-3 pb-4 sm:pb-4">
-									{modal.content}
-								</div>
+								<div className="mt-2 px-4 pt-3 pb-4 sm:pb-4">{modal.content}</div>
 							</div>
 						</div>
 					</div>

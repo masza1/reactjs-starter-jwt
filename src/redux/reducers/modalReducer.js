@@ -33,15 +33,17 @@ const modalSlice = createSlice( {
             if ( state.modalStack.some( ( modal ) => modal.id === id ) ) {
                 return;
             }
+            
+            const zIndex = state.modalStack.length > 0 ? state.modalStack[state.modalStack.length - 1].zIndex + 1 : 1000;
 
-            state.modalStack.push( { id, title, titleElement, content, isStaticBackdrop/* , isOpen: true */, onClose, size } );
+            state.modalStack.push( { id, title, titleElement, content, isStaticBackdrop/* , isOpen: true */, onClose, size, zIndex } );
 
         },
         closeModal: ( state, action ) => {
             const id = action.payload;
 
             const closedModal = state.modalStack.find( ( modal ) => {
-                console.log( modal.id, id );
+                // console.log( modal.id, id );
                 return modal.id === id;
             } );
 

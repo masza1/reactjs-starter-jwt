@@ -6,13 +6,18 @@ export default function PasswordIcon() {
 
 	const toggleVisibility = () => {
 		setVisible(!visible);
+
+		const input = document.querySelector('input[type="password"], input[type="text"]');
+		if (input) {
+			input.type = visible ? "password" : "text";
+		}
 	};
 	return (
 		<>
 			{visible ? (
-				<MuiIcon onClick={toggleVisibility} icnoName="visibility_off" />
+				<MuiIcon onClick={toggleVisibility} iconName="visibility_off" />
 			) : (
-				<MuiIcon onClick={toggleVisibility} icnoName="visibility" />
+				<MuiIcon onClick={toggleVisibility} iconName="visibility" />
 			)}
 		</>
 	);

@@ -5,4 +5,6 @@ import 'moment/locale/id';
 // Set default locale to Indonesian
 moment.locale('id');
 
-export default moment;
+const momentId = moment;
+
+export default momentId;

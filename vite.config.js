@@ -24,6 +24,6 @@ export default defineConfig({
 	},
 	server: {
 		port: 3000, // Port for the development server
-		// cors: true, // Enable CORS
+		cors: true, // Enable CORS
 	},
 });
