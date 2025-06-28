@@ -12,13 +12,14 @@ import { StrictMode } from "react";
 import { BrowserRouter } from "react-router-dom";
 
 const queryClient = new QueryClient();
+const baseName = import.meta.env.VITE_BASENAME || "/";
 
 createRoot(document.getElementById("root")).render(
 	<StrictMode>
 		<QueryClientProvider client={queryClient}>
 			<Provider store={store}>
 				<PersistGate loading={null} persistor={persistor}>
-					<BrowserRouter>
+					<BrowserRouter basename={baseName}>
 						<AppRouter  />
 					</BrowserRouter>
 					<ToastContainer position="bottom-right" />
